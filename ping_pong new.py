@@ -1,6 +1,5 @@
 from pygame import* 
-#12345
-
+#часть1
 win_width= 700
 win_height= 500 
 back= (255,120,30)
