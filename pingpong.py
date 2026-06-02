@@ -2,7 +2,7 @@ from pygame import*
 #часть 2.1
 win_width= 700
 win_height= 500 
-back= (200,200,200)
+back= (255,255,255)
 window= display.set_mode((win_width, win_height))
 display.set_caption('Ping Pong')
 window.fill(back)
@@ -11,6 +11,8 @@ finish= False
 font.init()
 scorel= 0
 scorer= 0 
+timer= 0
+timerS=0 
 font1= font.SysFont('verdana', 40)
 win_l = font1.render('PlayerL WIN', True, (200,30,30))
 win_r = font1.render('PlayerR WIN', True, (200,30,30))
@@ -18,6 +20,7 @@ text_scorel= font1.render('SCORE L:' + str(scorel), True, (200,12,100))
 text_scorer= font1.render('SCORE R:' + str(scorer), True, (200,12,100))
 window.blit(text_scorer, (400,10))
 window.blit(text_scorel, (30,5))
+
 restart= font1.render('Хочешь начать заново-нажми пробел', True, (0,0,0))
 class Game_Sprite(sprite.Sprite):
     def __init__(self,picture, w,h,x,y,speed_x,speed_y):
@@ -56,6 +59,9 @@ class Player(Game_Sprite):
 player_r= Player('platform.png',30,150,670,100,0,10)
 player_l= Player('platform.png', 30,150,0,200,0,10)
 ball= Player("ball_p.png",40,40,120,100,5,5)
+#fon= Game_Sprite('fon0.jpg', 700,500,0,0,0,0)
+fon= transform.scale(image.load('fon0.jpg'), (700,500))
+
 
 while run:
     
@@ -71,13 +77,18 @@ while run:
                 #time.delay(1000)
                 finish= False 
     if not finish:
-        window.fill(back)
+        #window.fill(back)
+        
+        window.blit(fon,(0,0))
+        
         ball.reset()
         ball.update_ball()
         text_scorel= font1.render('SCORE L:' + str(scorel), True, (200,12,100))
         text_scorer= font1.render('SCORE R:' + str(scorer), True, (200,12,100))
+        text_timer= font1.render('timer:' + str(timer), True, (200,12,100))
         window.blit(text_scorer, (400,10))
-        window.blit(text_scorel, (30,5))
+        window.blit(text_timer, (300,450))
+        window.blit(text_scorel, (30,10))
         player_l.reset()
         player_l.update_l()
         player_r.reset()
@@ -104,6 +115,9 @@ while run:
                 window.blit(win_l, (180,200))
                 window.blit(restart,(150,450))
                 finish = True 
-        
-    time.delay(40)
+    timerS  +=1 
+    if timerS==10:
+        timer+=1
+        timerS=0
+    time.delay(60)
     display.update()
